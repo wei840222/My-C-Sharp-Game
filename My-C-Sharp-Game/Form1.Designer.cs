@@ -34,7 +34,6 @@
             // 
             // Timer
             // 
-            this.Timer.Enabled = true;
             this.Timer.Tick += new System.EventHandler(this.GameTimer);
             // 
             // Form1

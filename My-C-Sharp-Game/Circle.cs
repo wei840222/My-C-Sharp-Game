@@ -6,11 +6,11 @@ namespace My_C_Sharp_Game
 {
     class Circle
     {
-        private Point ori;
-        private int rad;
-
         public Point vec;
         public int hp;
+
+        private Point ori;
+        private int rad;
 
         private Pen p;
 
