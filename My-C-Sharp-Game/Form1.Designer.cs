@@ -3,14 +3,14 @@
     partial class Form1
     {
         /// <summary>
-        /// 設計工具所需的變數。
+        /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        /// 清除任何使用中的資源。
+        /// Clean up any resources being used.
         /// </summary>
-        /// <param name="disposing">如果應該處置 Managed 資源則為 true，否則為 false。</param>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,11 +20,11 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form 設計工具產生的程式碼
+        #region Windows Form Designer generated code
 
         /// <summary>
-        /// 此為設計工具支援所需的方法 - 請勿使用程式碼編輯器修改
-        /// 這個方法的內容。
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
@@ -34,23 +34,24 @@
             // 
             // Timer
             // 
-            this.Timer.Tick += new System.EventHandler(this.GameTimer);
+            this.Timer.Tick += new System.EventHandler(this.onTimer);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(784, 561);
             this.DoubleBuffered = true;
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.Name = "Form1";
-            this.Text = "My C# Game";
+            this.Text = "My C Sharp Game";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.GameDraw);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.onKeyDown);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.onKeyPress);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.onKeyUp);
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.onMouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.onMouseMove);
-            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.onMouseUp);
             this.ResumeLayout(false);
 
         }
