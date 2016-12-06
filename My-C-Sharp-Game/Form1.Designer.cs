@@ -49,7 +49,6 @@
             this.Text = "My C Sharp Game";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.GameDraw);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.onKeyDown);
-            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.onKeyPress);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.onKeyUp);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.onMouseMove);
             this.ResumeLayout(false);
