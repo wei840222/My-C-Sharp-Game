@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms;
-
-namespace My_C_Sharp_Game
+﻿namespace My_C_Sharp_Game
 {
     class InputState
     {
