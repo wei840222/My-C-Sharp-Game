@@ -14,7 +14,7 @@ namespace My_C_Sharp_Game
             y = ori.Y;
             r = rad;
 
-            atk = (int)(rad * 25);
+            atk = (int)(rad * 2500);
 
             mx = (mousePos.X - x) / oriDis(mousePos) * BULLET_SPEED;
             my = (mousePos.Y - y) / oriDis(mousePos) * BULLET_SPEED;

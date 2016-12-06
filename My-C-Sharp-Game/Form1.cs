@@ -41,30 +41,6 @@ namespace My_C_Sharp_Game
             GameTimer.Start();
         }
 
-        private void GameDraw(object sender, PaintEventArgs e)
-        {
-            //清空畫布
-            e.Graphics.Clear(Color.White);
-
-            //繪製玩家
-            player.draw(Pens.Blue, e);
-
-            //繪製子彈
-            bullets.TrimExcess();
-            for (int i = 0; i < bullets.Count; i++)
-                bullets[i].draw(Pens.Black, e);
-
-            //繪製怪物
-            monsters.TrimExcess();
-            for (int i = 0; i < monsters.Count; i++)
-                monsters[i].draw(Pens.Red, e);
-
-            //繪製資訊文字
-            e.Graphics.DrawString("分數:" + score, SystemFonts.CaptionFont, Brushes.Black, 0, 0);
-            e.Graphics.DrawString("子彈數量:" + bullets.Count, SystemFonts.CaptionFont, Brushes.Black, 0, 20);
-            e.Graphics.DrawString("怪物數量:" + monsters.Count, SystemFonts.CaptionFont, Brushes.Black, 0, 40);
-        }
-
         private void GameLoop(object sender, EventArgs e)
         {
             //偵測鍵盤
@@ -75,7 +51,7 @@ namespace My_C_Sharp_Game
             keyD.onTimer();
 
             //移動玩家
-            if (keyW.isDown) 
+            if (keyW.isDown)
                 player.y -= 5;
             if (keyS.isDown)
                 player.y += 5;
@@ -123,6 +99,7 @@ namespace My_C_Sharp_Game
             for (int i = 0; i < monsters.Count; i++)
             {
                 monsters[i].follow(new Point((int)player.x, (int)player.y));
+
                 bullets.TrimExcess();
                 for (int j = 0; j < bullets.Count; j++)
                     if (monsters[i].boundDis(bullets[j]) <= 0)
@@ -130,21 +107,46 @@ namespace My_C_Sharp_Game
                         monsters[i].hp -= bullets[j].atk;
                         bullets.Remove(bullets[j]);
                     }
+
+                if (monsters[i].hp <= 0)
+                {
+                    score += (int)monsters[i].r;
+                    monsters.Remove(monsters[i]);
+                    continue;
+                }
                 if (monsters[i].boundDis(player) <= 0)
                 {
                     score -= (int)monsters[i].r;
-                    monsters.Remove(monsters[i]);
-                }
-                
-                if (monsters[i]!=null && monsters[i].hp <= 0)
-                {
-                    score += (int)monsters[i].r;
                     monsters.Remove(monsters[i]);
                 }
                 monsters.TrimExcess();
             }
 
             Invalidate();
+        }
+
+        private void GameDraw(object sender, PaintEventArgs e)
+        {
+            //清空畫布
+            e.Graphics.Clear(Color.White);
+
+            //繪製玩家
+            player.draw(Pens.Blue, e);
+
+            //繪製子彈
+            bullets.TrimExcess();
+            for (int i = 0; i < bullets.Count; i++)
+                bullets[i].draw(Pens.Black, e);
+
+            //繪製怪物
+            monsters.TrimExcess();
+            for (int i = 0; i < monsters.Count; i++)
+                monsters[i].draw(Pens.Red, e);
+
+            //繪製資訊文字
+            e.Graphics.DrawString("分數:" + score, SystemFonts.CaptionFont, Brushes.Black, 0, 0);
+            e.Graphics.DrawString("子彈數量:" + bullets.Count, SystemFonts.CaptionFont, Brushes.Black, 0, 20);
+            e.Graphics.DrawString("怪物數量:" + monsters.Count, SystemFonts.CaptionFont, Brushes.Black, 0, 40);
         }
 
         private void onKeyDown(object sender, KeyEventArgs e)
