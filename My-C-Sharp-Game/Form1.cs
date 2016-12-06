@@ -13,7 +13,7 @@ namespace My_C_Sharp_Game
        
         //玩家
         private static Circle player = new Circle(new Point(200, 100), 20);
-        private static uint score = 0;
+        private static int score = 0;
 
         //子彈
         private static List<Bullet> bullets = new List<Bullet>();
@@ -75,7 +75,7 @@ namespace My_C_Sharp_Game
             keyD.onTimer();
 
             //移動玩家
-            if (keyW.isDown)
+            if (keyW.isDown) 
                 player.y -= 5;
             if (keyS.isDown)
                 player.y += 5;
@@ -96,28 +96,53 @@ namespace My_C_Sharp_Game
                 bullets.Add(new Bullet(new Point((int)player.x, (int)player.y), 5, mousePos));
                 newBulletTime = NEW_BULLET_TIME;
             }
-            //移動子彈
-            bullets.TrimExcess();
-            for (int i = 0; i < bullets.Count; i++)
-                bullets[i].move();
 
-            //移動怪物
-            monsters.TrimExcess();
-            for (int i = 0; i < monsters.Count; i++)
-                monsters[i].follow(new Point((int)player.x, (int)player.y));
             //產生怪物
             newMonsterTime -= 1.0f / FPS;
             if (newMonsterTime <= 0)
             {
                 int news = rnd.Next(10, 30);
-                for(int i = 0; i <= news; i++)
+                for (int i = 0; i <= news; i++)
                 {
-                    monsters.Add(new Monster(new Point(rnd.Next(0, Width), rnd.Next(0, Height)), rnd.Next(10, 50), rnd.Next(5, 10), rnd.Next(5, 10)));
+                    monsters.Add(new Monster(new Point(rnd.Next(0, Width), rnd.Next(0, Height)), rnd.Next(10, 50), rnd.Next(1, 10), rnd.Next(1, 10)));
                     newMonsterTime = NEW_MONSTER_TIME;
                 }
             }
 
-            //碰撞偵測
+            //移動子彈
+            bullets.TrimExcess();
+            for (int i = 0; i < bullets.Count; i++)
+            {
+                bullets[i].move();
+                if (bullets[i].x + 5 < 0 || bullets[i].x - 5 > Width || bullets[i].y + 5 < 0 || bullets[i].y - 5 > Height)
+                    bullets.Remove(bullets[i]);
+            }
+
+            //移動怪物
+            monsters.TrimExcess();
+            for (int i = 0; i < monsters.Count; i++)
+            {
+                monsters[i].follow(new Point((int)player.x, (int)player.y));
+                bullets.TrimExcess();
+                for (int j = 0; j < bullets.Count; j++)
+                    if (monsters[i].boundDis(bullets[j]) <= 0)
+                    {
+                        monsters[i].hp -= bullets[j].atk;
+                        bullets.Remove(bullets[j]);
+                    }
+                if (monsters[i].boundDis(player) <= 0)
+                {
+                    score -= (int)monsters[i].r;
+                    monsters.Remove(monsters[i]);
+                }
+                
+                if (monsters[i]!=null && monsters[i].hp <= 0)
+                {
+                    score += (int)monsters[i].r;
+                    monsters.Remove(monsters[i]);
+                }
+                monsters.TrimExcess();
+            }
 
             Invalidate();
         }

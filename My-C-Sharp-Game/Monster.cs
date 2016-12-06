@@ -4,8 +4,8 @@ namespace My_C_Sharp_Game
 {
     class Monster : Circle
     {
+        public int hp;
         private float mx, my;
-        private float hp;
 
         public Monster(Point ori, float rad, float mx, float my) : base(ori, rad)
         {
@@ -13,7 +13,7 @@ namespace My_C_Sharp_Game
             y = ori.Y;
             r = rad;
 
-            hp = rad * 100;
+            hp = (int)(rad * 100);
 
             this.mx = mx;
             this.my = my;
