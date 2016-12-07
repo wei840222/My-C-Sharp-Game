@@ -27,8 +27,9 @@ namespace My_C_Sharp_Game
         private static float newMonsterTime = 0.0f;
 
         //輸入
+        private static InputState mouseLeft = new InputState();
         private static Point mousePos = new Point();
-        private static InputState keySpace = new InputState();
+        
         private static InputState keyW = new InputState();
         private static InputState keyS = new InputState();
         private static InputState keyA = new InputState();
@@ -74,7 +75,7 @@ namespace My_C_Sharp_Game
         private void GameLoop(object sender, EventArgs e)
         {
             //偵測鍵盤
-            keySpace.onTimer();
+            mouseLeft.onTimer();
             keyW.onTimer();
             keyS.onTimer();
             keyA.onTimer();
@@ -91,13 +92,13 @@ namespace My_C_Sharp_Game
                 player.x += 5;
 
             //發射子彈
-            if (keySpace.isDown)
+            if (mouseLeft.isDown)
             {
                 newBulletTime -= 1.0f / FPS;
                 if (newBulletTime <= 0)
-                    keySpace.isPress = true;
+                    mouseLeft.isPress = true;
             }
-            if (keySpace.isPress)
+            if (mouseLeft.isPress)
             {
                 bullets.Add(new Bullet(new Point((int)player.x, (int)player.y), 5, mousePos));
                 newBulletTime = NEW_BULLET_TIME;
@@ -159,9 +160,6 @@ namespace My_C_Sharp_Game
         {
             switch (e.KeyCode)
             {
-                case Keys.Space:
-                    keySpace.onKeyDown();
-                    break;
                 case Keys.W:
                     keyW.onKeyDown();
                     break;
@@ -181,9 +179,6 @@ namespace My_C_Sharp_Game
         {
             switch (e.KeyCode)
             {
-                case Keys.Space:
-                    keySpace.onKeyUp();
-                    break;
                 case Keys.W:
                     keyW.onKeyUp();
                     break;
@@ -197,6 +192,18 @@ namespace My_C_Sharp_Game
                     keyD.onKeyUp();
                     break;
             }
+        }
+
+        private void onMouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+                mouseLeft.onKeyDown();
+        }
+
+        private void onMouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+                mouseLeft.onKeyUp();
         }
 
         private void onMouseMove(object sender, MouseEventArgs e)
