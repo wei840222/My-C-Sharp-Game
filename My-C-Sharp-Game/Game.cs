@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace My_C_Sharp_Game
 {
-    public partial class Form1 : Form
+    public partial class Game : Form
     {
         private static Random rnd = new Random(Guid.NewGuid().GetHashCode());
+        private static Timer gameTimer = new Timer();
         //預期的畫面更新率(每秒呼叫幾次OnTimer)
         private const float FPS = 60.0f;
        
@@ -33,12 +34,41 @@ namespace My_C_Sharp_Game
         private static InputState keyA = new InputState();
         private static InputState keyD = new InputState();
 
-        public Form1()
+        public Game()
         {
             InitializeComponent();
 
-            GameTimer.Interval = (int)(1000.0f / FPS);
-            GameTimer.Start();
+            gameTimer.Interval = (int)(1000.0f / FPS);
+            gameTimer.Tick += new EventHandler(GameLoop);
+        }
+
+        private void GameDraw(object sender, PaintEventArgs e)
+        {
+            //清空畫布
+            e.Graphics.Clear(Color.White);
+
+            //繪製玩家
+            player.draw(Pens.Blue, e);
+
+            //繪製子彈
+            bullets.TrimExcess();
+            for (int i = 0; i < bullets.Count; i++)
+                bullets[i].draw(Pens.Black, e);
+
+            //繪製怪物
+            monsters.TrimExcess();
+            for (int i = 0; i < monsters.Count; i++)
+                monsters[i].draw(Pens.Red, e);
+
+            //更新記分板
+            e.Graphics.DrawString("得分: " + score, SystemFonts.CaptionFont, Brushes.Black, 5, 5);
+
+            //繪製資訊文字
+            e.Graphics.DrawString("子彈數量: " + bullets.Count, SystemFonts.CaptionFont, Brushes.Black, 5, 520);
+            e.Graphics.DrawString("怪物數量: " + monsters.Count, SystemFonts.CaptionFont, Brushes.Black, 5, 540);
+
+            if (!gameTimer.Enabled)
+                e.Graphics.Clear(Color.White);
         }
 
         private void GameLoop(object sender, EventArgs e)
@@ -125,30 +155,6 @@ namespace My_C_Sharp_Game
             Invalidate();
         }
 
-        private void GameDraw(object sender, PaintEventArgs e)
-        {
-            //清空畫布
-            e.Graphics.Clear(Color.White);
-
-            //繪製玩家
-            player.draw(Pens.Blue, e);
-
-            //繪製子彈
-            bullets.TrimExcess();
-            for (int i = 0; i < bullets.Count; i++)
-                bullets[i].draw(Pens.Black, e);
-
-            //繪製怪物
-            monsters.TrimExcess();
-            for (int i = 0; i < monsters.Count; i++)
-                monsters[i].draw(Pens.Red, e);
-
-            //繪製資訊文字
-            e.Graphics.DrawString("分數:" + score, SystemFonts.CaptionFont, Brushes.Black, 0, 0);
-            e.Graphics.DrawString("子彈數量:" + bullets.Count, SystemFonts.CaptionFont, Brushes.Black, 0, 20);
-            e.Graphics.DrawString("怪物數量:" + monsters.Count, SystemFonts.CaptionFont, Brushes.Black, 0, 40);
-        }
-
         private void onKeyDown(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
@@ -197,6 +203,21 @@ namespace My_C_Sharp_Game
         {
             mousePos.X = e.X;
             mousePos.Y = e.Y;
+        }
+
+        private void label_start_Click(object sender, EventArgs e)
+        {
+            Controls.Remove(label_title);
+            Controls.Remove(label_start);
+            Controls.Remove(label_exit);
+            gameTimer.Start();
+        }
+
+        private void label_exit_Click(object sender, EventArgs e)
+        {
+            Close();
+            Environment.Exit(Environment.ExitCode);
+            InitializeComponent();
         }
     }
 }
