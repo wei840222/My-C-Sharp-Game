@@ -13,7 +13,7 @@ namespace My_C_Sharp_Game
             y = ori.Y;
             r = rad;
 
-            hp = (int)(rad * 100);
+            hp = (int)rad;
 
             this.mx = mx;
             this.my = my;

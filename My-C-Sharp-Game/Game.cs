@@ -7,6 +7,9 @@ namespace My_C_Sharp_Game
 {
     public partial class Game : Form
     {
+        private const int VIEW_W = 783;
+        private const int VIEW_H = 560;
+
         private static Random rnd = new Random(Guid.NewGuid().GetHashCode());
         private static Timer gameTimer = new Timer();
         //預期的畫面更新率(每秒呼叫幾次OnTimer)
@@ -18,7 +21,7 @@ namespace My_C_Sharp_Game
 
         //子彈
         private static List<Bullet> bullets = new List<Bullet>();
-        private const float NEW_BULLET_TIME = 0.1f;
+        private const float NEW_BULLET_TIME = 0.025f;
         private static float newBulletTime = 0.0f;
 
         //怪物
@@ -83,13 +86,29 @@ namespace My_C_Sharp_Game
 
             //移動玩家
             if (keyW.isDown)
+            {
                 player.y -= 5;
+                if (player.y - player.r < 0)
+                    player.y = 0 + player.r;
+            }  
             if (keyS.isDown)
+            {
                 player.y += 5;
+                if (player.y + player.r > VIEW_H)
+                    player.y = VIEW_H - player.r;
+            }   
             if (keyA.isDown)
+            {
                 player.x -= 5;
+                if (player.x - player.r < 0)
+                    player.x = 0 + player.r;
+            }
             if (keyD.isDown)
+            {
                 player.x += 5;
+                if (player.x + player.r > VIEW_W)
+                    player.x = VIEW_W - player.r;
+            }
 
             //發射子彈
             if (mouseLeft.isDown)
@@ -111,7 +130,8 @@ namespace My_C_Sharp_Game
                 int news = rnd.Next(10, 30);
                 for (int i = 0; i <= news; i++)
                 {
-                    monsters.Add(new Monster(new Point(rnd.Next(0, Width), rnd.Next(0, Height)), rnd.Next(10, 50), rnd.Next(1, 10), rnd.Next(1, 10)));
+                    monsters.Add(new Monster(new Point(rnd.Next(0, VIEW_W), rnd.Next(0, VIEW_H)),
+                    rnd.Next(10, 50), rnd.Next(1, 10), rnd.Next(1, 10)));
                     newMonsterTime = NEW_MONSTER_TIME;
                 }
             }
@@ -121,7 +141,8 @@ namespace My_C_Sharp_Game
             for (int i = 0; i < bullets.Count; i++)
             {
                 bullets[i].move();
-                if (bullets[i].x + 5 < 0 || bullets[i].x - 5 > Width || bullets[i].y + 5 < 0 || bullets[i].y - 5 > Height)
+                if (bullets[i].x + bullets[i].r < 0 || bullets[i].x - bullets[i].r > VIEW_W ||
+                    bullets[i].y + bullets[i].r < 0 || bullets[i].y - bullets[i].r > VIEW_H)
                     bullets.Remove(bullets[i]);
             }
 
@@ -217,6 +238,7 @@ namespace My_C_Sharp_Game
             Controls.Remove(label_title);
             Controls.Remove(label_start);
             Controls.Remove(label_exit);
+            Controls.Remove(label_description);
             gameTimer.Start();
         }
 

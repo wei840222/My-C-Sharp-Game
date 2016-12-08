@@ -31,6 +31,7 @@
             this.label_title = new System.Windows.Forms.Label();
             this.label_start = new System.Windows.Forms.Label();
             this.label_exit = new System.Windows.Forms.Label();
+            this.label_description = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label_title
@@ -68,12 +69,24 @@
             this.label_exit.Text = "離開";
             this.label_exit.Click += new System.EventHandler(this.label_exit_Click);
             // 
+            // label_description
+            // 
+            this.label_description.AutoSize = true;
+            this.label_description.BackColor = System.Drawing.Color.Transparent;
+            this.label_description.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label_description.Location = new System.Drawing.Point(12, 520);
+            this.label_description.Name = "label_description";
+            this.label_description.Size = new System.Drawing.Size(112, 32);
+            this.label_description.TabIndex = 3;
+            this.label_description.Text = "移動: WSAD\r\n射擊: 滑鼠左鍵";
+            // 
             // Game
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.label_description);
             this.Controls.Add(this.label_exit);
             this.Controls.Add(this.label_start);
             this.Controls.Add(this.label_title);
@@ -98,6 +111,7 @@
         private System.Windows.Forms.Label label_title;
         private System.Windows.Forms.Label label_start;
         private System.Windows.Forms.Label label_exit;
+        private System.Windows.Forms.Label label_description;
     }
 }
 
