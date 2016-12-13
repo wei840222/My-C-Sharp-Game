@@ -160,18 +160,17 @@ namespace My_C_Sharp_Game
                         bullets.Remove(bullets[j]);
                     }
 
-                if (monsters[i].hp <= 0)
-                {
-                    score += (int)monsters[i].r;
-                    monsters.Remove(monsters[i]);
-                    continue;
-                }
                 if (monsters[i].boundDis(player) <= 0)
                 {
                     score -= (int)monsters[i].r;
                     monsters.Remove(monsters[i]);
+                    continue;
                 }
-                monsters.TrimExcess();
+                if (monsters[i].hp <= 0)
+                {
+                    score += (int)monsters[i].r;
+                    monsters.Remove(monsters[i]);
+                }
             }
 
             Invalidate();
