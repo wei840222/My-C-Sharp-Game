@@ -12,7 +12,8 @@ namespace My_C_Sharp_Game
 
         private static Random rnd = new Random(Guid.NewGuid().GetHashCode());
         private static Timer gameTimer = new Timer();
-        //預期的畫面更新率(每秒呼叫幾次OnTimer)
+
+        //預期的畫面更新率(每秒呼叫幾次Timer)
         private const float FPS = 60.0f;
        
         //玩家
@@ -158,13 +159,13 @@ namespace My_C_Sharp_Game
                 if (monsters[i].boundDis(player) <= 0)
                 {
                     score += (int)monsters[i].r;
-                    monsters.Remove(monsters[i]);
+                    monsters.RemoveAt(i);
                     continue;
                 }
                 if (monsters[i].hp <= 0)
                 {
                     score -= (int)monsters[i].r;
-                    monsters.Remove(monsters[i]);
+                    monsters.RemoveAt(i);
                 }
             }
 
