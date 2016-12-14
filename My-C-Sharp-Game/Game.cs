@@ -55,12 +55,10 @@ namespace My_C_Sharp_Game
             player.draw(Pens.Blue, e);
 
             //繪製子彈
-            bullets.TrimExcess();
             for (int i = 0; i < bullets.Count; i++)
                 bullets[i].draw(Pens.Black, e);
 
             //繪製怪物
-            monsters.TrimExcess();
             for (int i = 0; i < monsters.Count; i++)
                 monsters[i].draw(Pens.Red, e);
 
@@ -137,38 +135,35 @@ namespace My_C_Sharp_Game
             }
 
             //移動子彈
-            bullets.TrimExcess();
             for (int i = 0; i < bullets.Count; i++)
             {
                 bullets[i].move();
                 if (bullets[i].x + bullets[i].r < 0 || bullets[i].x - bullets[i].r > VIEW_W ||
                     bullets[i].y + bullets[i].r < 0 || bullets[i].y - bullets[i].r > VIEW_H)
-                    bullets.Remove(bullets[i]);
+                    bullets.RemoveAt(i);
             }
 
             //移動怪物
-            monsters.TrimExcess();
             for (int i = 0; i < monsters.Count; i++)
             {
                 monsters[i].follow(new Point((int)player.x, (int)player.y));
 
-                bullets.TrimExcess();
                 for (int j = 0; j < bullets.Count; j++)
                     if (monsters[i].boundDis(bullets[j]) <= 0)
                     {
                         monsters[i].hp -= bullets[j].atk;
-                        bullets.Remove(bullets[j]);
+                        bullets.RemoveAt(j);
                     }
 
                 if (monsters[i].boundDis(player) <= 0)
                 {
-                    score -= (int)monsters[i].r;
+                    score += (int)monsters[i].r;
                     monsters.Remove(monsters[i]);
                     continue;
                 }
                 if (monsters[i].hp <= 0)
                 {
-                    score += (int)monsters[i].r;
+                    score -= (int)monsters[i].r;
                     monsters.Remove(monsters[i]);
                 }
             }
