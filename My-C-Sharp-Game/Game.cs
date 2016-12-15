@@ -158,13 +158,13 @@ namespace My_C_Sharp_Game
 
                 if (monsters[i].boundDis(player) <= 0)
                 {
-                    score += (int)monsters[i].r;
+                    score -= (int)monsters[i].r;
                     monsters.RemoveAt(i);
                     continue;
                 }
                 if (monsters[i].hp <= 0)
                 {
-                    score -= (int)monsters[i].r;
+                    score += (int)monsters[i].r;
                     monsters.RemoveAt(i);
                 }
             }
